@@ -3,6 +3,9 @@ kind: Service
 metadata:
     name: server-svc
 spec:
+  # session affinity creates stickey session to client
+  # this is useful when a server in a pod holds the session data of the client
+  # sessionAffinity: ClientIP
   selector:
     app: server
   ports:
