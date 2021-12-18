@@ -1,0 +1,101 @@
+# user server rc
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: user-server-rc
+spec:
+  replicas: 2
+  selector:
+    app: user-server
+  template:
+    metadata:
+      name: user-server-pod
+      labels:
+        app: user-server
+    spec:
+      containers:
+        - name: server
+          image: gcr.io/typed-app-dev/kube-test-user-server:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+
+---
+# user server rc
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: product-server-rc
+spec:
+  replicas: 2
+  selector:
+    app: product-server
+  template:
+    metadata:
+      name: product-server-pod
+      labels:
+        app: product-server
+    spec:
+      containers:
+        - name: server
+          image: gcr.io/typed-app-dev/kube-test-product-server:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+
+---
+# user server svc
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-server-svc
+spec:
+  # session affinity creates stickey session to client
+  # this is useful when a server in a pod holds the session data of the client
+  # sessionAffinity: ClientIP
+  selector:
+    app: user-server
+  type: NodePort
+  ports:
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: 8080
+
+---
+# product server svc
+apiVersion: v1
+kind: Service
+metadata:
+  name: product-server-svc
+spec:
+  # session affinity creates stickey session to client
+  # this is useful when a server in a pod holds the session data of the client
+  # sessionAffinity: ClientIP
+  selector:
+    app: product-server
+  type: NodePort
+  ports:
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: 8080
+
+---
+# ingress l7 lb that loadbalances two user and product servers
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: test-ingress
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /users/*
+            backend:
+              serviceName: user-server-svc
+              servicePort: 80
+          - path: /products/*
+            backend:
+              serviceName: product-server-svc
+              servicePort: 80

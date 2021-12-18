@@ -82,3 +82,21 @@ subsets:
     ports:
     - port: 80
 ```
+
+
+## Ingress
+Ingress is L7 loadbalancer that routes traffic to services.
+By default, lb in service is L4 lb which load balances within TCP, and thus
+not able to use TSL (SSL) security settings and routing by url paths.
+
+Quite often in MSA architecture, each k8s service is designed and implemented as
+a MSA service and each of them is routed by url. /users /products
+
+In such circumstances, you can use ingress to servce those feature services through
+Ingress L7 loadbalacner.
+
+Loadbalancers in Ingress use nodeport to heartbeat check to each services. For such reasons,
+services served by Ingress must be Nodeport and not loadbalancer.
+
+Once Ingress detects troubles in specific nodes, it removes and/or restart the very node.
+

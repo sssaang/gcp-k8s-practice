@@ -6,4 +6,4 @@ RUN npm run build
 FROM node:12-slim
 COPY --from=base dist/product_server.js .
 EXPOSE 8080
-CMD [ "node", "." ]
+CMD [ "node", "./product_server" ]
