@@ -13,4 +13,5 @@
 ## Secrets
 
 - contains secret such as DB user and pw
+- secret must be applied before other components that use the secret
   NEVER PUSH IN REMOTE IN PRODUCTION
