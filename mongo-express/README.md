@@ -13,3 +13,4 @@
 ## Secrets
 
 - contains secret such as DB user and pw
+  NEVER PUSH IN REMOTE IN PRODUCTION
