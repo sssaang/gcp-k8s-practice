@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mongo-express
+  name: api-deployment
   labels:
     app: api
 spec:
@@ -41,4 +41,16 @@ spec:
                   key: db_url
 
 ---
-apiVersion:
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-service
+spec:
+  selector:
+    app: api
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 8081
+      targetPort: 8081
+      nodePort: 30212
