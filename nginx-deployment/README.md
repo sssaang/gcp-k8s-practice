@@ -8,3 +8,4 @@
 6. kubectl exec -it POD-NAME -> enters the pod
 7. kubectl delete deployment POD-NAME -> deletes deployment
 8. kubectl apply -f filename -> apply manifest file (k8s knows if the config is created or updated)
+9. kubectl delete -f filename -> delete the components created by the file
