@@ -23,5 +23,8 @@
 - each node has associated lease object in namespace
 - determines the availability of a node
 
-1. create namespace
+1. create namespace through cli
    kubectl create namespace NAMESPACE-NAME
+2. create namespace through config yaml file
+
+- besides services, you cannot access resources from other namespace
